@@ -22,16 +22,16 @@ namespace DirectoryCleaner
         {
             int removedDirectories = 0;
 
-            foreach (DirectoryInfo NestedDirectory in Directory.GetDirectories())
-            {
-                removedDirectories += EmptyDirectory(NestedDirectory);
-            }
-
             try
             {
+                foreach (DirectoryInfo NestedDirectory in Directory.GetDirectories())
+                {
+                    removedDirectories += EmptyDirectory(NestedDirectory);
+                }
+            
                 if (Directory.GetFiles().Length == 0 && Directory.GetDirectories().Length == 0)
                 {
-                    Console.Write("Removing " + Directory.FullName + "...");
+                    Console.Write("Removing " + Directory.Name + "...");
 
                     try
                     {
@@ -46,7 +46,10 @@ namespace DirectoryCleaner
                     }
                 }
             }
-            catch { }
+            catch
+            {
+                Console.WriteLine(Directory.Name + " is Restricted");
+            }
 
             return removedDirectories;        
         }
